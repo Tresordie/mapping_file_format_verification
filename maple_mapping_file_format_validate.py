@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 """
-@File    :   hct_mapping_file_format_validate.py
-@Time    :   2024/11/01 10:53:52
+@File    :   maple_mapping_file_format_validate.py
+@Time    :   2024/11/06 16:31:56
 @Author  :   SimonYuan
-@Version :   1.1
+@Version :   1.0
 @Site    :   https://tresordie.github.io/
 @Desc    :   None
 """
-
 
 import re
 import csv
@@ -16,7 +15,7 @@ from tqdm import tqdm
 import pandas as pd
 
 
-class hct_mapping_file_format_validate(object):
+class maple_mapping_file_format_validate(object):
     def __init__(self, mapping_file_path):
         self.mapping_file_path = mapping_file_path
         self.mapping_file_verify_result_file_header = [
@@ -29,43 +28,67 @@ class hct_mapping_file_format_validate(object):
         )
         self.row_data_written = []
 
-        self.hct_mapping_file_header = [
+        self.maple_mapping_file_header = [
+            "PAIRING_UUID",
             "WORK_ORDER",
-            "TLA",
+            "MANUFACTURING_ORDER",
+            "SALES_ORDER_NUMBER",
+            "LYFT_PO",
+            "ARTICLE_NUMBER",
+            "CELL_BLOCK_PN",
+            "CELL_BLOCK_SN",
+            "CELL_HOLDER_PN",
+            "CELL_HOLDER_SN",
+            "ENCLOSURE_PN",
+            "ENCLOSURE_SN",
+            "FIRST_CELL_SN",
+            "LAST_CELL_SN",
+            "BMS_NUMBER",
+            "HARNESS_NUMBER",
+            "MAPLE_PACK_SN",
+            "PBSC PART NUMBER",
+            "LYFT PART NUMBER",
+            "FF_TRACKING_NUMBER",
+            "CONTAINER_NUMBER",
+            "SHIPPING_DATE",
             "CARTON_NO",
             "PALLET_NO",
-            "CONTAINER_NO",
-            "SKU",
-            "MLB_PCBA",
-            "FATP_SN",
-            "NFC_UID",
-            "STM32_UUID",
-            "METAL_BASE",
-            "FF_TRACKING_NUMBER",
-            "SHIPPING_DATE",
             "FATP_INPUT_DATETIME",
-            "ME_LINE_OUT_DATETIME",
+            "ME_LINE_OUTPUT_DATETIME",
             "OQC_LINE_OUTPUT_DATETIME",
+            "PACKING_DATETIME",
         ]
 
         # fmt: off
-        self.hct_mapping_file_column_regex_dict = {
-            "WORK_ORDER"              : '^((BH-?[0-9]{6})|(PO[ML]BS?[0-9]{4}))$',
-            "TLA"                     : '^[0-9]{2}-[0-9]{7}$',
-            "CARTON_NO"               : '^[0-9A-Z]{6,}$',
-            "PALLET_NO"               : '^[0-9A-Z]{6,}$',
-            "CONTAINER_NO"            : '^[0-9A-Za-z#]{6,}$',
-            "SKU"                     : '(?i)^(Chole|Cosmo)$',
-            "MLB_PCBA"                : '^F[TK][0-9]{2}[0-9]{2}[A-Z0-9]{4}[0-9][A-Z0-9]{2}[0-9]{3}$',
-            "FATP_SN"                 : '^F[TK][0-9]{2}[0-9]{2}[A-Z0-9]{4}[0-9][A-Z0-9]{2}[0-9]{3}$',
-            "NFC_UID"                 : '^04.{12}000000$',
-            "STM32_UUID"              : '^[0-9A-Fa-f]{24}$',
-            "METAL_BASE"              : '^[0-9A-Za-z]{16,}|(NA)$',
-            "FF_TRACKING_NUMBER"      : '^[0-9A-Za-z#]{6,}$',
-            "SHIPPING_DATE"           : '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$',
-            "FATP_INPUT_DATETIME"     : '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$',
-            "ME_LINE_OUT_DATETIME"    : '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$',
-            "OQC_LINE_OUTPUT_DATETIME": '^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$',
+        self.maple_mapping_file_column_regex_dict = {
+            "PAIRING_UUID"            : "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+            "WORK_ORDER"              : "^[A-Za-z0-9]{5}-[A-Za-z0-9]{9}$",
+            "MANUFACTURING_ORDER"     : "^[A-Za-z0-9]{5}-[A-Za-z0-9]{9}-[A-Za-z0-9]{3}-[A-Za-z0-9]{2}$",
+            "SALES_ORDER_NUMBER"      : "^[A-Za-z0-9]{5}-[A-Za-z0-9]{9,}$",
+            "LYFT_PO"                 : "^BH-\d{6,}$",
+            "ARTICLE_NUMBER"          : "^[A-Za-z0-9]{12,}$",
+            "CELL_BLOCK_PN"           : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
+            "CELL_BLOCK_SN"           : "^[A-Za-z0-9]{17,}$",
+            "CELL_HOLDER_PN"          : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
+            "CELL_HOLDER_SN"          : "^[A-Za-z0-9]{17,}$",
+            "ENCLOSURE_PN"            : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
+            "ENCLOSURE_SN"            : "^[A-Za-z0-9]{17,}$",
+            "FIRST_CELL_SN"           : "^[A-Za-z0-9]{18}$",
+            "LAST_CELL_SN"            : "^[A-Za-z0-9]{18}$",
+            "BMS_NUMBER"              : "^[A-Za-z0-9]{17}$",
+            "HARNESS_NUMBER"          : "^[A-Za-z0-9]{17,}$",
+            "MAPLE_PACK_SN"           : "^[A-Za-z0-9]{17,}$",
+            "PBSC PART NUMBER"        : "^PBS\d{2}-\d{6}-\d{2}$",
+            "LYFT PART NUMBER"        : "^\d{2}-\d{7,}$",
+            "FF_TRACKING_NUMBER"      : "^[0-9A-Za-z#]{6,}$",
+            "CONTAINER_NUMBER"        : "^[0-9A-Za-z]{6,}$",
+            "SHIPPING_DATE"           : "^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$",
+            "CARTON_NO"               : "^[0-9A-Za-z]{6,}$",
+            "PALLET_NO"               : "^[0-9A-Za-z]{6,}$",
+            "FATP_INPUT_DATETIME"     : "^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$",
+            "ME_LINE_OUTPUT_DATETIME" : "^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$",
+            "OQC_LINE_OUTPUT_DATETIME": "^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$",
+            "PACKING_DATETIME"        : "^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$",
         }
         # fmt: on
 
@@ -181,10 +204,21 @@ class hct_mapping_file_format_validate(object):
         self.mapping_file_header_verify()
 
         # duplicate item check
-        self.has_items_unique("MLB_PCBA")
-        self.has_items_unique("FATP_SN")
-        self.has_items_unique("STM32_UUID")
-        self.has_items_unique("NFC_UID")
+        # self.has_items_unique("PAIRING_UUID")
+        self.has_items_unique("ARTICLE_NUMBER")
+        self.has_items_unique("CELL_BLOCK_PN")
+        self.has_items_unique("CELL_BLOCK_SN")
+        self.has_items_unique("CELL_HOLDER_PN")
+        self.has_items_unique("CELL_HOLDER_SN")
+        self.has_items_unique("ENCLOSURE_PN")
+        self.has_items_unique("ENCLOSURE_SN")
+        self.has_items_unique("FIRST_CELL_SN")
+        self.has_items_unique("LAST_CELL_SN")
+        self.has_items_unique("BMS_NUMBER")
+        self.has_items_unique("HARNESS_NUMBER")
+        self.has_items_unique("MAPLE_PACK_SN")
+        self.has_items_unique("PBSC PART NUMBER")
+        self.has_items_unique("LYFT PART NUMBER")
 
         # specific column check
         for i in tqdm(range(len(self.hct_mapping_file_header))):
@@ -197,17 +231,17 @@ class hct_mapping_file_format_validate(object):
 
 
 if __name__ == "__main__":
-    hct_mapping_file_path_list = [
+    maple_mapping_file_path_list = [
         "./20241017_HCT_COSMO_MappingFile.csv",
         "./20241030_HCT_COSMO_MappingFile.csv",
     ]
 
-    hct_mapping_file_format_validate_multiple_process = []
+    maple_mapping_file_format_validate_multiple_process = []
 
-    for i in range(len(hct_mapping_file_path_list)):
-        hct_mapping_file_format_validate_multiple_process.append(
-            hct_mapping_file_format_validate(hct_mapping_file_path_list[i])
+    for i in range(len(maple_mapping_file_path_list)):
+        maple_mapping_file_format_validate_multiple_process.append(
+            maple_mapping_file_format_validate(maple_mapping_file_path_list[i])
         )
 
-    for i in range(len(hct_mapping_file_format_validate_multiple_process)):
-        hct_mapping_file_format_validate_multiple_process[i].mapping_file_verify()
+    for i in range(len(maple_mapping_file_format_validate_multiple_process)):
+        maple_mapping_file_format_validate_multiple_process[i].mapping_file_verify()

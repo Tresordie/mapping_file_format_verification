@@ -1,0 +1,200 @@
+{
+    "workbench.iconTheme": "vscode-icons",
+    "editor.fontFamily": "Hack Nerd Font",
+    "editor.fontSize": 18,
+    "terminal.integrated.fontSize": 15,
+    "tabnine.experimentalAutoImports": true,
+    "editor.detectIndentation": false, //关闭检测第一个tab后面就tab
+    "editor.renderControlCharacters": true, //制表符显示
+    "editor.renderWhitespace": "all", //空格显示
+    "debug.console.fontSize": 15,
+    "markdown.preview.fontSize": 15,
+    "git.autofetch": true,
+    "editor.tabSize": 4, //tab为四个空格
+    "editor.insertSpaces": true, //转为空格
+    // astyle
+    "files.autoGuessEncoding": true,
+    "editor.mouseWheelZoom": true, //鼠标放大的
+    "astyle.astylerc": "",
+    "astyle.additional_languages": [
+        "c",
+        "cpp"
+    ],
+    "astyle.cmd_options": [
+        "--style=google",
+        "--indent=spaces=4",
+        "--convert-tabs",
+        "--align-pointer=name",
+        "--align-reference=name",
+        "--keep-one-line-statements",
+        "--pad-header",
+        "--pad-oper",
+        "--convert-tabs"
+    ],
+    "astyle.executable": "C:\\AStyle\\bin\\AStyle.exe", //文件编码的，以防中文乱码
+    "[c]": {
+        "editor.defaultFormatter": "chiehyu.vscode-astyle"
+    }, //这个是插件安装好了就有的
+    "[cpp]": {
+        "editor.defaultFormatter": "chiehyu.vscode-astyle"
+    },
+    "editor.guides.bracketPairs": true, //这个是插件安装好了就有的
+    // search
+    "search.exclude": {
+        "**/.git": true,
+        "**/Listing": true,
+        "**/Objects": true,
+        "**/DebugConfig": true,
+        "**/.history": true,
+        "**/SI_Project": true
+    },
+    "files.exclude": {
+        "**/*.map": true,
+        "**/*.uvprojx": true,
+        "**/*.uvoptx": true,
+        "**/*.htm": true,
+        "**/SI_Project/*.*": true
+    },
+    "workbench.startupEditor": "none",
+    "security.workspace.trust.untrustedFiles": "open",
+    // Doxygen documentation generator set
+    "doxdocgen.file.copyrightTag": [
+        "@copyright Copyright (c) {year}  Simon.Yuan"
+    ],
+    "doxdocgen.file.customTag": [
+        "@par 修改日志:",
+        "<table>",
+        "<tr><th>Date  <th>Version <th>Author <th>Description",
+        "<tr><td>{date} <td>1.0  <td>simon.y  <td>内容",
+        "</table>"
+    ],
+    "doxdocgen.file.fileOrder": [
+        "file", // @file
+        "brief", // @brief 简介
+        "author", // 作者
+        "version", // 版本
+        "date", // 日期
+        "empty", // 空行
+        "copyright", // 版权
+        "empty",
+        "custom" // 自定义
+    ],
+    "doxdocgen.file.fileTemplate": "@file {name}",
+    "doxdocgen.file.versionTag": "@version 1.0",
+    "doxdocgen.generic.authorEmail": "Tresordie@163.com",
+    "doxdocgen.generic.authorName": "simon.y",
+    "doxdocgen.generic.authorTag": "@author {author} ({email})",
+    "doxdocgen.generic.dateFormat": "YYYY-MM-DD",
+    "doxdocgen.generic.dateTemplate": "@date {date}",
+    "doxdocgen.generic.order": [
+        "brief",
+        "tparam",
+        "param",
+        "return"
+    ],
+    "doxdocgen.generic.paramTemplate": "@param{indent:8}{param}{indent:25}",
+    "doxdocgen.generic.returnTemplate": "@return {type} ",
+    "doxdocgen.generic.splitCasingSmartText": true,
+    "explorer.confirmDelete": false,
+    "pyqt-integration.qtdesigner.path": "C:\\Users\\simon\\AppData\\Local\\Programs\\Python\\Python37\\Lib\\site-packages\\qt5_applications\\Qt\\bin\\designer.exe",
+    "pyqt-integration.pyuic.cmd": "C:\\Users\\simon\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\pyuic5.exe",
+    "python.autoComplete.extraPaths": [],
+    "python.analysis.extraPaths": [],
+    "python.formatting.blackArgs": [
+        "--skip-string-normalization",
+    ],
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "git.openRepositoryInParentFolders": "never",
+    "bracket-pair-colorizer-2.depreciation-notice": false,
+    "code-runner.runInTerminal": true,
+    "editor.wordWrap": "on",
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnSave": true,
+    "markdownlint.config": {
+        "MD001": false,
+        "MD002": false,
+        "MD003": false,
+        "MD004": false,
+        "MD005": false,
+        "MD006": false,
+        "MD007": false,
+        "MD008": false,
+        "MD009": false,
+        "MD010": false,
+        "MD011": false,
+        "MD012": false,
+        "MD013": false,
+        "MD014": false,
+        "MD015": false,
+        "MD016": false,
+        "MD017": false,
+        "MD018": false,
+        "MD019": false,
+        "MD020": false,
+        "MD021": false,
+        "MD022": false,
+        "MD023": false,
+        "MD024": false,
+        "MD025": false,
+        "MD026": false,
+        "MD027": false,
+        "MD028": false,
+        "MD029": false,
+        "MD030": false,
+        "MD031": false,
+        "MD032": false,
+        "MD033": false,
+        "MD034": false,
+        "MD035": false,
+        "MD036": false,
+        "MD037": false,
+        "MD038": false,
+        "MD039": false,
+        "MD040": false,
+        "MD041": false,
+        "MD042": false,
+        "MD043": false,
+        "MD044": false,
+        "MD045": false,
+        "MD046": false,
+        "MD047": false,
+    },
+    "[markdown]": {
+        "files.trimTrailingWhitespace": false,
+        // "editor.fontFamily": "霞鹜文楷",
+        "editor.fontFamily": "腾祥爱情体简",
+        // "editor.fontFamily": "Hack NF",
+        "editor.fontSize": 18,
+        "editor.fontWeight": 500,
+        "editor.lineNumbers": "interval"
+    },
+    "pyqt-integration.pyrcc.cmd": "C:\\Users\\simon\\AppData\\Local\\Programs\\Python\\Python37\\Scripts\\pyrcc5.exe",
+    "semantic-highlighting.isEnable": true,
+    "python.createEnvironment.trigger": "off",
+    "files.associations": {
+        "*.py": "python"
+    },
+    "[python]": {
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.formatOnType": true,
+        "editor.formatOnSave": true,
+        "editor.wordBasedSuggestions": "off"
+    },
+    "codeium.enableConfig": {
+        "*": true,
+        "plaintext": true
+    },
+    "[plaintext]": {
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false
+    },
+    "indentRainbow.colors": [
+        "rgba(255,255,64,0.07)",
+        "rgba(127,255,127,0.07)",
+        "rgba(255,127,255,0.07)",
+        "rgba(79,236,236,0.07)"
+    ]
+}
