@@ -35,12 +35,12 @@ class maple_mapping_file_format_validate(object):
             "SALES_ORDER_NUMBER",
             "LYFT_PO",
             "ARTICLE_NUMBER",
-            "CELL_BLOCK_PN",
-            "CELL_BLOCK_SN",
-            "CELL_HOLDER_PN",
-            "CELL_HOLDER_SN",
+            # "CELL_BLOCK_PN",
+            # "CELL_BLOCK_SN",
             "ENCLOSURE_PN",
             "ENCLOSURE_SN",
+            "CELL_HOLDER_PN",
+            "CELL_HOLDER_SN",
             "FIRST_CELL_SN",
             "LAST_CELL_SN",
             "BMS_NUMBER",
@@ -67,12 +67,12 @@ class maple_mapping_file_format_validate(object):
             "SALES_ORDER_NUMBER"      : "^[A-Za-z0-9]{5}-[A-Za-z0-9]{9,}$",
             "LYFT_PO"                 : "^BH-\d{6,}$",
             "ARTICLE_NUMBER"          : "^[A-Za-z0-9]{12,}$",
-            "CELL_BLOCK_PN"           : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
-            "CELL_BLOCK_SN"           : "^[A-Za-z0-9]{17,}$",
-            "CELL_HOLDER_PN"          : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
-            "CELL_HOLDER_SN"          : "^[A-Za-z0-9]{17,}$",
+            # "CELL_BLOCK_PN"           : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
+            # "CELL_BLOCK_SN"           : "^[A-Za-z0-9]{17,}$",
             "ENCLOSURE_PN"            : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
             "ENCLOSURE_SN"            : "^[A-Za-z0-9]{17,}$",
+            "CELL_HOLDER_PN"          : "^[A-Za-z0-9]{2}-[A-Za-z0-9]{7,}$",
+            "CELL_HOLDER_SN"          : "^[A-Za-z0-9]{17,}$",
             "FIRST_CELL_SN"           : "^[A-Za-z0-9]{18}$",
             "LAST_CELL_SN"            : "^[A-Za-z0-9]{18}$",
             "BMS_NUMBER"              : "^[A-Za-z0-9]{17}$",
@@ -139,7 +139,7 @@ class maple_mapping_file_format_validate(object):
         # print(factory_mapping_file_header_list)
 
         if not self.are_lists_equal(
-            factory_mapping_file_header_list, self.hct_mapping_file_header
+            factory_mapping_file_header_list, self.maple_mapping_file_header
         ):
             self.row_data_written.append("mapping_file_header")
             self.row_data_written.append("0")
@@ -204,36 +204,27 @@ class maple_mapping_file_format_validate(object):
         self.mapping_file_header_verify()
 
         # duplicate item check
-        # self.has_items_unique("PAIRING_UUID")
-        self.has_items_unique("ARTICLE_NUMBER")
-        self.has_items_unique("CELL_BLOCK_PN")
-        self.has_items_unique("CELL_BLOCK_SN")
-        self.has_items_unique("CELL_HOLDER_PN")
         self.has_items_unique("CELL_HOLDER_SN")
-        self.has_items_unique("ENCLOSURE_PN")
         self.has_items_unique("ENCLOSURE_SN")
         self.has_items_unique("FIRST_CELL_SN")
         self.has_items_unique("LAST_CELL_SN")
         self.has_items_unique("BMS_NUMBER")
         self.has_items_unique("HARNESS_NUMBER")
         self.has_items_unique("MAPLE_PACK_SN")
-        self.has_items_unique("PBSC PART NUMBER")
-        self.has_items_unique("LYFT PART NUMBER")
 
         # specific column check
-        for i in tqdm(range(len(self.hct_mapping_file_header))):
+        for i in tqdm(range(len(self.maple_mapping_file_header))):
             self.specific_column_verify(
-                self.hct_mapping_file_header[i],
-                self.hct_mapping_file_column_regex_dict[
-                    self.hct_mapping_file_header[i]
+                self.maple_mapping_file_header[i],
+                self.maple_mapping_file_column_regex_dict[
+                    self.maple_mapping_file_header[i]
                 ],
             )
 
 
 if __name__ == "__main__":
     maple_mapping_file_path_list = [
-        "./20241017_HCT_COSMO_MappingFile.csv",
-        "./20241030_HCT_COSMO_MappingFile.csv",
+        "./Maple Mapping File.csv",
     ]
 
     maple_mapping_file_format_validate_multiple_process = []
